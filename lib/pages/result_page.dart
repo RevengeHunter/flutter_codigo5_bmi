@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import '../bmi_brain.dart';
 
 import '../widgets.dart';
 import 'input_page.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+  int height;
+  int weight;
+
+  ResultPage({
+    required this.height,
+    required this.weight,
+  });
+
+  BMIBrain? bmiBrain;
 
   @override
   Widget build(BuildContext context) {
+
+    bmiBrain = BMIBrain(weight: weight, height: height);
+
     return Scaffold(
       appBar: AppBar(
         //centerTitle: true,
@@ -33,7 +45,7 @@ class ResultPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Normal",
+                    bmiBrain!.resultBMI(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 26.0,
@@ -41,7 +53,7 @@ class ResultPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "24",
+                    bmiBrain!.calculateBMI().toStringAsFixed(1),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 70.0,
@@ -49,7 +61,7 @@ class ResultPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Debes comer mas frutas y verduras",
+                  bmiBrain!.advicetBMI(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22.0,
@@ -61,9 +73,12 @@ class ResultPage extends StatelessWidget {
               color: Color(0xff89c2d9),
             ),
           ),
-          NavigatorButton(text: "RE-CALCULATE",onTap: (){
-            Navigator.pop(context);
-          },),
+          NavigatorButton(
+            text: "RE-CALCULATE",
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
